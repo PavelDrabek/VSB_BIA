@@ -92,7 +92,6 @@ public class JavaFXCameraMouseController extends AbstractCameraController implem
         // Rotate
         if (isLeftDown(e)) {
             Coord2d move = mouse.sub(prevMouse).div(100);
-            System.out.print("move = " + move.toString() + "\n");
             rotate(move);
             for(Chart chart: targets){
                 chart.render();
