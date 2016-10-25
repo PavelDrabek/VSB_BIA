@@ -16,17 +16,17 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="617.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <BorderPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane prefHeight="424.0" prefWidth="617.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-            <ImageView fx:id="imageView" fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+            <ImageView fx:id="imageView" fitHeight="395.0" fitWidth="372.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                <image>
                   <Image url="@profil_shikamaru_crop2.jpg" />
                </image></ImageView>
          </center>
          <left>
-            <VBox prefHeight="400.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="425.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
                <children>
                   <ComboBox fx:id="comboFunction" prefHeight="26.0" prefWidth="200.0" promptText="Select function" />
                   <Button fx:id="btnShowFunction" mnemonicParsing="false" onAction="#handleButtonActionShow" text="Show" />
@@ -93,6 +93,7 @@
                         <TextField fx:id="popSize" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
+                  <ComboBox fx:id="comboAlgorithm" prefWidth="150.0" promptText="Select algorithm" />
                   <HBox alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="200.0" spacing="5.0">
                      <children>
                         <Button fx:id="generatePop" mnemonicParsing="false" onAction="#handleButtonActionGeneratePop" text="Generate" />
