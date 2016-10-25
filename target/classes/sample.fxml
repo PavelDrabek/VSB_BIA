@@ -70,7 +70,7 @@
                         <Insets top="10.0" />
                      </padding>
                   </Label>
-                  <TextField />
+                  <TextField fx:id="customEl" text="2;4;6;5;2;3" />
                   <HBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>
                         <Button fx:id="btnGetFitness" mnemonicParsing="false" onAction="#handleButtonActionCalcFitness" text="Calculate" />
@@ -89,16 +89,16 @@
                      <children>
                         <Label text="Dimension" />
                         <Label text="Population size" GridPane.columnIndex="1" />
-                        <TextField fx:id="dim" GridPane.rowIndex="1" />
-                        <TextField fx:id="popSize" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="dim" text="2" GridPane.rowIndex="1" />
+                        <TextField fx:id="popSize" text="10" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                   <ComboBox fx:id="comboAlgorithm" prefWidth="150.0" promptText="Select algorithm" />
                   <HBox alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="200.0" spacing="5.0">
                      <children>
                         <Button fx:id="generatePop" mnemonicParsing="false" onAction="#handleButtonActionGeneratePop" text="Generate" />
-                        <CheckBox fx:id="checkDiscrete" mnemonicParsing="false" text="Discrete" />
-                        <Button mnemonicParsing="false" text="-&gt;" />
+                        <CheckBox fx:id="checkDiscrete" mnemonicParsing="false" selected="true" text="Discrete" />
+                        <Button mnemonicParsing="false" onAction="#handleButtonActionNextStep" text="-&gt;" />
                      </children></HBox>
                </children>
                <padding>

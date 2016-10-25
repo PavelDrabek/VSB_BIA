@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import org.jzy3d.chart.AWTChart;
@@ -31,8 +32,9 @@ public class Controller implements Initializable {
     public ImageView imageView;
     public ComboBox comboFunction;
     public TextField minX, maxX, precX, minY, maxY, precY;
-    public TextField dim, popSize;
+    public TextField customEl, dim, popSize;
     public CheckBox checkDiscrete;
+    public Label lFitness;
 
     AWTChart chart;
     Shape surface, pointsShape;
@@ -119,7 +121,12 @@ public class Controller implements Initializable {
 
     @FXML
     protected void handleButtonActionCalcFitness(ActionEvent event) {
-
+        String[] split = customEl.getText().split(";");
+        float[] values = new float[split.length];
+        for (int i = 0; i < split.length; i++) {
+            values[i] = Float.valueOf(split[i]);
+        }
+        lFitness.setText("Fitness = " + selectedFunction.getValue(values.length, values));
     }
 
     @FXML
@@ -132,7 +139,13 @@ public class Controller implements Initializable {
         }
 
         GeneratePopulation();
-        ShowGeneration(generation, null);
+        search = new BlindSearch(selectedFunction, generation.D, generation);
+        ShowGeneration(generation, search.GetBest());
+    }
+
+    @FXML
+    protected void handleButtonActionNextStep(ActionEvent event) {
+        NextGeneration();
     }
 
     private void GeneratePopulation() {
@@ -153,7 +166,7 @@ public class Controller implements Initializable {
         generation.isDiscrete = checkDiscrete.isSelected();
         generation.GenerateFirst();
         generation.FixPopulation();
-        generation.CalcFitness();
+//        generation.CalcFitness();
     }
 
     private IFunction GetFunction(String name) {
