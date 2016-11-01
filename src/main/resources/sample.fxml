@@ -93,7 +93,7 @@
                         <TextField fx:id="popSize" text="10" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
-                  <ComboBox fx:id="comboAlgorithm" prefWidth="150.0" promptText="Select algorithm" />
+                  <ComboBox fx:id="comboAlgorithm" prefWidth="200.0" promptText="Select algorithm" />
                   <HBox alignment="CENTER_LEFT" prefHeight="20.0" prefWidth="200.0" spacing="5.0">
                      <children>
                         <Button fx:id="generatePop" mnemonicParsing="false" onAction="#handleButtonActionGeneratePop" text="Generate" />

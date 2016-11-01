@@ -1,7 +1,8 @@
 package sample;
 
 
-import algorithms.BlindSearch;
+import algorithms.ISearchAlgorithm;
+import algorithms.SimulatedAnnealing;
 import data.Element;
 import functions.*;
 import functions.IFunction;
@@ -30,7 +31,7 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
     public ImageView imageView;
-    public ComboBox comboFunction;
+    public ComboBox comboFunction, comboAlgorithm;
     public TextField minX, maxX, precX, minY, maxY, precY;
     public TextField customEl, dim, popSize;
     public CheckBox checkDiscrete;
@@ -42,7 +43,7 @@ public class Controller implements Initializable {
     int stepsX, stepsY;
     IFunction selectedFunction;
     Generation generation;
-    BlindSearch search;
+    ISearchAlgorithm selectedAlgorithm;
 
     public Controller(AWTChart chart) {
         this.chart = chart;
@@ -67,9 +68,16 @@ public class Controller implements Initializable {
                 StretchedVSineWave.class.getSimpleName(),
                 Ackey1.class.getSimpleName(),
                 Ackey2.class.getSimpleName(),
-                OptimizationFunction.class.getSimpleName());
-
+                OptimizationFunction.class.getSimpleName()
+        );
         comboFunction.setValue(comboFunction.getItems().get(0));
+
+
+        comboAlgorithm.getItems().addAll(
+          SimulatedAnnealing.class.getSimpleName()
+        );
+        comboAlgorithm.setValue(comboAlgorithm.getItems().get(0));
+
 
         handleButtonActionShow(null);
 //        getDemoChart(chart, new DeJong1(), new Range(-3, 3), new Range(-3, 3));
@@ -139,8 +147,8 @@ public class Controller implements Initializable {
         }
 
         GeneratePopulation();
-        search = new BlindSearch(selectedFunction, generation.D, generation);
-        ShowGeneration(generation, search.GetBest());
+        selectedAlgorithm = GetAlgorithm((String)comboAlgorithm.getValue());
+        ShowPopulation(selectedAlgorithm.GetPopulation(), selectedAlgorithm.GetBest());
     }
 
     @FXML
@@ -164,8 +172,7 @@ public class Controller implements Initializable {
 
         generation = new Generation(D, pop, selectedFunction, limits);
         generation.isDiscrete = checkDiscrete.isSelected();
-        generation.GenerateFirst();
-        generation.FixPopulation();
+
 //        generation.CalcFitness();
     }
 
@@ -199,11 +206,19 @@ public class Controller implements Initializable {
         }
     }
 
-    private void ShowGeneration(Generation generation, Element best) {
+    private ISearchAlgorithm GetAlgorithm(String name) {
+        if(name.equals(SimulatedAnnealing.class.getSimpleName())) {
+            return new SimulatedAnnealing(selectedFunction, generation);
+        } else {
+            return new SimulatedAnnealing(selectedFunction, generation);
+        }
+    }
+
+    private void ShowPopulation(Element[] population, Element best) {
         chart.getScene().getGraph().remove(pointsShape);
         pointsShape.clear();
-        for (int i = 0; i < generation.popSize; i++) {
-            Element e = generation.population[i];
+        for (int i = 0; i < population.length; i++) {
+            Element e = population[i];
             AddElementToShape(pointsShape, e, Color.BLACK, 5);
         }
         if(best != null) {
@@ -219,8 +234,8 @@ public class Controller implements Initializable {
     }
 
     private void NextGeneration() {
-        search.Next();
-        ShowGeneration(search.gen, search.GetBest());
+        selectedAlgorithm.NextGeneration();
+        ShowPopulation(selectedAlgorithm.GetPopulation(), selectedAlgorithm.GetBest());
     }
 
     private AWTChart getDemoChart(AWTChart chart, IFunction function, Range xRange, Range yRange, int precX, int precY) {

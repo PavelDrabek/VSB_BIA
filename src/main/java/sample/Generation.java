@@ -12,7 +12,6 @@ import java.util.Random;
 public class Generation {
 
     int D;
-    int popSize;
     IFunction f;
     public Range[] limits;
     public Element[] population;
@@ -21,27 +20,38 @@ public class Generation {
 
     Random rand;
 
-    public int GetPopSize() { return popSize; }
+    public int GetPopSize() { return population.length; }
     public int GetDimension() { return D; }
 
     public Generation(int D, int popSize, IFunction f, Range[] limits) {
         this.D = D;
-        this.popSize = popSize;
         this.f = f;
         this.limits = limits;
-
-        population = new Element[popSize];
+        SetPopSize(popSize);
         rand = new Random();
+    }
+
+    public void SetPopSize(int popSize) {
+        population = new Element[popSize];
     }
 
     public void GenerateFirst() {
 
-        for (int p = 0; p < popSize; p++) {
-            population[p] = new Element(D);
-            for (int i = 0; i < D; i++) {
-                population[p].params[i] = GetRandomFloat(limits[i]);
-            }
+        for (int p = 0; p < GetPopSize(); p++) {
+            population[p] = GenerateRandomElement(D);
         }
+    }
+
+    public Element GenerateRandomElement(int D) {
+        Element e = new Element(D);
+        for (int i = 0; i < D; i++) {
+            e.params[i] = GetRandomValueInRange(i);
+        }
+        return e;
+    }
+
+    public float GetRandomValueInRange(int index) {
+        return GetRandomFloat(limits[index]);
     }
 
     public void FixElement(int popIndex, int paramIndex) {
@@ -51,6 +61,17 @@ public class Generation {
         population[popIndex].params[paramIndex] = FixToRangeLoop(population[popIndex].params[paramIndex], limits[paramIndex]);
     }
 
+    public Element FixElement(Element el) {
+        for (int i = 0; i < D; i++) {
+            if(isDiscrete) {
+                el.params[i] = FixToInt(el.params[i]);
+            }
+            el.params[i] = FixToRangeLoop(el.params[i], limits[i]);
+        }
+        return el;
+    }
+
+
     public void FixElement(int index) {
         for (int i = 0; i < D; i++) {
             FixElement(index, i);
@@ -58,13 +79,13 @@ public class Generation {
     }
 
     public void FixPopulation() {
-        for (int p = 0; p < popSize; p++) {
+        for (int p = 0; p < GetPopSize(); p++) {
             FixElement(p);
         }
     }
 
     public void CalcFitness() {
-        for (int p = 0; p < popSize; p++) {
+        for (int p = 0; p < GetPopSize(); p++) {
             population[p].SetFitness(f.getValue(D, population[p].params));
         }
     }
