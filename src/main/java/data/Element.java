@@ -29,4 +29,31 @@ public class Element {
         params[D] = fitness;
     }
 
+
+
+
+    public Element odd(Element other) {
+        Element result = new Element(this);
+        for (int i = 0; i < result.GetDimension(); i++) {
+            result.params[i] = params[i] - other.params[i];
+        }
+        return result;
+    }
+
+    public Element add(Element other) {
+        Element result = new Element(this);
+        for (int i = 0; i < result.GetDimension(); i++) {
+            result.params[i] = params[i] + other.params[i];
+        }
+        return result;
+    }
+
+    public Element mul(float scalar) {
+        Element result = new Element(this);
+        for (int i = 0; i < result.GetDimension(); i++) {
+            result.params[i] = params[i] * scalar;
+        }
+        return result;
+    }
+
 }

@@ -1,6 +1,7 @@
 package sample;
 
 
+import algorithms.DifferentialEvolution;
 import algorithms.ISearchAlgorithm;
 import algorithms.SimulatedAnnealing;
 import data.Element;
@@ -74,7 +75,8 @@ public class Controller implements Initializable {
 
 
         comboAlgorithm.getItems().addAll(
-          SimulatedAnnealing.class.getSimpleName()
+                DifferentialEvolution.class.getSimpleName(),
+                SimulatedAnnealing.class.getSimpleName()
         );
         comboAlgorithm.setValue(comboAlgorithm.getItems().get(0));
 
@@ -209,6 +211,8 @@ public class Controller implements Initializable {
     private ISearchAlgorithm GetAlgorithm(String name) {
         if(name.equals(SimulatedAnnealing.class.getSimpleName())) {
             return new SimulatedAnnealing(selectedFunction, generation);
+        } else if(name.equals(DifferentialEvolution.class.getSimpleName())) {
+            return new DifferentialEvolution(selectedFunction, generation, 0.3f, 0.8f);
         } else {
             return new SimulatedAnnealing(selectedFunction, generation);
         }
