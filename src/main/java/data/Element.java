@@ -56,4 +56,12 @@ public class Element {
         return result;
     }
 
+    public Element mul(Element e) {
+        Element result = new Element(this);
+        for (int i = 0; i < result.GetDimension(); i++) {
+            result.params[i] = params[i] * e.params[i];
+        }
+        return result;
+    }
+
 }
