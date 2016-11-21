@@ -37,6 +37,7 @@ public class SOMA implements ISearchAlgorithm {
         }
 
         for (int i = 0; i < generation.GetPopSize(); i++) {
+            generation.population[i].SetFitness(f.getValue(generation.GetDimension(), generation.population[i].params));
             if(best == null || generation.population[i].GetFitness() < best.GetFitness()) {
                 best = generation.population[i];
             }
@@ -72,19 +73,25 @@ public class SOMA implements ISearchAlgorithm {
     }
 
     private Element GetNewElement(Element e) {
-        Element dir = new Element(e.GetDimension());
-        double t = random.nextDouble() * pathLength;
+//        Element dir = new Element(e.GetDimension());
+//        double t = random.nextDouble() * pathLength;
 
         Element PTRVector = new Element(e.GetDimension());
         for (int i = 0; i < PTRVector.GetDimension(); i++) {
             PTRVector.params[i] = (random.nextDouble() < PRT) ? 1 : 0;
         }
 
+        Element lBest = null;
         for (int i = 0; i < pathLength / pathStep; i++) {
-            e.add(best.odd(e).mul(pathStep * i).mul(PTRVector));
+            Element l = e.add(best.odd(e).mul(pathStep * i).mul(PTRVector));
+            l = generation.FixElement(l);
+            l.SetFitness(f.getValue(l.GetDimension(), l.params));
+            if(lBest == null || l.GetFitness() < lBest.GetFitness()) {
+                lBest = l;
+            }
         }
 
-        Element n = e.add(dir);
-        return n;
+//        Element n = e.add(dir);
+        return lBest;
     }
 }
