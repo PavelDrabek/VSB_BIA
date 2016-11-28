@@ -1,10 +1,7 @@
 package sample;
 
 
-import algorithms.DifferentialEvolution;
-import algorithms.ISearchAlgorithm;
-import algorithms.SOMA;
-import algorithms.SimulatedAnnealing;
+import algorithms.*;
 import data.Element;
 import functions.*;
 import functions.IFunction;
@@ -76,6 +73,8 @@ public class Controller implements Initializable {
 
 
         comboAlgorithm.getItems().addAll(
+                EvolutionStrategy.class.getSimpleName() + " (a+b)",
+                EvolutionStrategy.class.getSimpleName() + " (a,b)",
                 DifferentialEvolution.class.getSimpleName(),
                 SimulatedAnnealing.class.getSimpleName(),
                 SOMA.class.getSimpleName()
@@ -217,6 +216,10 @@ public class Controller implements Initializable {
             return new DifferentialEvolution(selectedFunction, generation, 0.3f, 0.8f);
         } else if(name.equals(SOMA.class.getSimpleName())) {
             return new SOMA(selectedFunction, generation, 3f, 0.3f, 0.2f);
+        } else if(name.equals(EvolutionStrategy.class.getSimpleName() + " (a+b)")){
+            return new EvolutionStrategy(selectedFunction, generation, 2.3f, 0);
+        } else if(name.equals(EvolutionStrategy.class.getSimpleName() + " (a,b)")){
+            return new EvolutionStrategy(selectedFunction, generation, 2.3f, 1);
         } else {
             return new SimulatedAnnealing(selectedFunction, generation);
         }
